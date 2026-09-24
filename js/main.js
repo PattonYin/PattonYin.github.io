@@ -153,6 +153,7 @@ function icon(name, size = 'icon-md') {
 const SELF_NAMES = [
     'Jiyang (Patton) Yin',
     'Jiyang Yin (Patton)',
+    'Patton Jiyang Yin',
     'Patton Yin',
     'Jiyang Yin'
 ];
