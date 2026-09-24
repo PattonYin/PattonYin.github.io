@@ -1,43 +1,51 @@
 # Robot model attribution
 
-The GLB meshes and `kinematics.json` files here are derived from
-[MuJoCo Menagerie](https://github.com/google-deepmind/mujoco_menagerie).
+| Assets | Source | Licence |
+|--------|--------|---------|
+| `panda/` arm | [MuJoCo Menagerie: franka_emika_panda](https://github.com/google-deepmind/mujoco_menagerie/tree/main/franka_emika_panda) | Apache 2.0 (`panda/LICENSE`) |
+| `iiwa/` arm | [MuJoCo Menagerie: kuka_iiwa_14](https://github.com/google-deepmind/mujoco_menagerie/tree/main/kuka_iiwa_14) | BSD 3-Clause, via Drake (`iiwa/LICENSE`) |
+| `robotiq-2f85/` | [MuJoCo Menagerie: robotiq_2f85](https://github.com/google-deepmind/mujoco_menagerie/tree/71f066ad0be9cd271f7ed58c030243ef157af9f4/robotiq_2f85) | BSD 2-Clause, ROS-Industrial (`robotiq-2f85/LICENSE`) |
+| `handumi-kuka/` | Owner-provided `handumi_kuka.urdf`, STL parts and Arducam visual GLB | Supplied by the site owner; no third-party licence added |
 
-| Folder  | Source model                     | Licence                    |
-|---------|----------------------------------|----------------------------|
-| `panda/` | `franka_emika_panda`            | Apache 2.0 (see `panda/LICENSE`) |
-| `iiwa/`  | `kuka_iiwa_14`                  | BSD 3-Clause, via Drake (see `iiwa/LICENSE`) |
+## Conversion and mounting
 
-## What was changed
+Visual meshes are simplified and exported as compact GLBs; collision meshes,
+raw CAD and source downloads are excluded from the website. Arm meshes use up
+to 12,000 faces per source part; gripper meshes use up to 6,000. The HandUMI
+camera retains its board/lens colours. Shared geometry serves both KUKA arms,
+with the original orange-and-gray finish on the left and white body panels on the right.
 
-For each robot, the MJCF was parsed to extract the body tree — exact joint
-frames (`pos`/`quat`), joint axes, and joint types — into `kinematics.json`.
-Each link's *visual* geoms were then merged (keeping per-part material colours,
-so the KUKA grey/orange livery and Panda's white/black survive), decimated to
-≤12 000 faces per part, and exported as one binary GLB per link.
+The Panda stock hand is replaced by a Robotiq 2F-85 at its 107 mm flange offset.
+Its joint frames, offset follower pivots and closed linkage follow the source
+MJCF. Sampled closure poses hold each coupler at its zero-angle stop and solve
+the spring/follower angles, without a physics engine in the browser.
 
-Collision geoms were dropped. Original visual meshes were 37.5 MB of ASCII OBJ;
-these GLBs are 5.3 MB total.
+Both KUKA arms carry the complete HandUMI assembly at the 45 mm flange offset.
+The supplied URDF defines mesh scale, camera position and the two prismatic
+finger axes. Fixed components are merged into one mesh; each moving jaw has
+its own mesh. The URDF's mount-face frame and fingertip-centre offset are kept.
 
-Joint angles follow the source MJCF convention, so real logged joint states
-replay without remapping: all-zero q is the upright home pose, the 7 arm joints
-are hinges about their local Z, and Panda's two finger joints are prismatic
-along local Y (0–0.04 m).
+Arm angles retain the MJCF joint convention. HandUMI `grip` is half the opening
+in metres (0 to 0.037). For Robotiq, the existing 0 to 0.04 display command maps
+closed to open through the coupled joint samples; it is not a hardware command.
 
-## Note on the iiwa
-
-Menagerie ships `kuka_iiwa_14` only — there is no iiwa 7 model. The 14 is used
-here. Externally the two are near-identical; the link lengths differ slightly
-(iiwa 7 R800 reaches 800 mm, the iiwa 14 R820 reaches 820 mm), so if you need
-the 7 specifically, swap in its meshes and update `kinematics.json` link offsets.
+The KUKA visual model remains the iiwa 14 R820, as indicated in the caption.
 
 ## Regenerating
 
-The converter script is `tools/convert_robots.py`. It downloads from Menagerie,
-so it needs network access:
-
-```
-pip install trimesh fast-simplification
+```powershell
+pip install trimesh fast-simplification numpy scipy
 python tools/convert_robots.py assets/robots
-FACE_BUDGET=6000 python tools/convert_robots.py assets/robots   # smaller/lower-poly
+python tools/convert_grippers.py "C:/path/to/handumi_kuka"
+python tools/generate_robot_motion.py
 ```
+
+The local source folder must contain `handumi_kuka.urdf` and its referenced
+meshes. Downloaded source files are cached under the ignored `.preview/`
+directory. The gripper converter replaces any prior tool links; the obsolete
+Panda `hand.glb`, `left_finger.glb` and `right_finger.glb` are not used.
+
+Display motion uses full tool position and orientation IK with joint limits,
+keeping the fingertips downward and the HandUMI cameras facing outward.
+The generator checks orientation and position errors between playback samples
+and closes each loop onto its starting joint posture.

@@ -208,6 +208,76 @@
     0.7071067811865475
    ],
    "mesh": "link7.glb"
+  },
+  {
+   "name": "handumi_body",
+   "parent": 7,
+   "pos": [
+    0.0,
+    0.0,
+    0.045
+   ],
+   "joint": null,
+   "mesh": "../handumi-kuka/body.glb"
+  },
+  {
+   "name": "handumi_finger_left",
+   "parent": 8,
+   "pos": [
+    0,
+    0,
+    0
+   ],
+   "joint": {
+    "name": "finger_left_joint",
+    "type": "slide",
+    "axis": [
+     3.205103454691839e-09,
+     -1.0,
+     0.0
+    ],
+    "range": [
+     0.0,
+     0.037
+    ]
+   },
+   "mesh": "../handumi-kuka/finger_left.glb"
+  },
+  {
+   "name": "handumi_finger_right",
+   "parent": 8,
+   "pos": [
+    0,
+    0,
+    0
+   ],
+   "joint": {
+    "name": "finger_right_joint",
+    "type": "slide",
+    "axis": [
+     -3.205103454691839e-09,
+     1.0,
+     0.0
+    ],
+    "range": [
+     0.0,
+     0.037
+    ]
+   },
+   "mesh": "../handumi-kuka/finger_right.glb"
   }
- ]
+ ],
+ "gripper": {
+  "open": 0.037,
+  "joints": {
+   "finger_left_joint": [
+    0,
+    0.037
+   ],
+   "finger_right_joint": [
+    0,
+    0.037
+   ]
+  }
+ }
 }

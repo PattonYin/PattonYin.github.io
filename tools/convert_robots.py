@@ -7,6 +7,7 @@ to a web budget, and writes one GLB per link plus a kinematics description.
 
 import json
 import os
+from pathlib import Path
 import sys
 import urllib.request
 import xml.etree.ElementTree as ET
@@ -15,7 +16,7 @@ import numpy as np
 import trimesh
 
 RAW = "https://raw.githubusercontent.com/google-deepmind/mujoco_menagerie/main"
-CACHE = "meshcache"
+CACHE = str(Path(__file__).resolve().parents[1] / ".preview/robot-source")
 FACE_BUDGET = int(os.environ.get("FACE_BUDGET", "12000"))
 
 ROBOTS = {
@@ -156,7 +157,8 @@ def walk_bodies(body, parent_index, links, materials, classes, childclass=None):
 
 def build(robot_key, out_dir):
     cfg = ROBOTS[robot_key]
-    xml_local = cfg["xml"]
+    os.makedirs(CACHE, exist_ok=True)
+    xml_local = os.path.join(CACHE, cfg["xml"])
     if not os.path.exists(xml_local):
         urllib.request.urlretrieve(f"{RAW}/{cfg['dir']}/{cfg['xml']}", xml_local)
 

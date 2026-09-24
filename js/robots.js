@@ -1,13 +1,14 @@
 // 3D robot viewers — 2× KUKA LBR iiwa (bimanual) and Franka Emika Panda.
 //
 // Uses the REAL robot meshes and kinematics, converted from MuJoCo Menagerie
-// into per-link GLB + kinematics.json by tools/convert_robots.py. See
+// into per-link GLB + kinematics.json by tools/convert_robots.py and
+// tools/convert_grippers.py (including the local HandUMI URDF). See
 // assets/robots/ATTRIBUTION.md for sources and licences.
 //
 // ── Joint convention (matches the source MJCF, so real logs replay directly) ─
 // All 7 arm joints are hinges about their own local Z; each link's fixed frame
 // (pos + quat) comes straight from the MJCF, so the effective axes are the real
-// robot's. Panda's two finger joints are PRISMATIC along local Y, range 0–0.04 m.
+// robot's. Gripper joint axes and coupled opening poses come from kinematics.json.
 // Angles are radians.
 //
 // Note Panda's joint4 range is [-3.07, -0.07] — it never reaches 0, so an
@@ -18,7 +19,8 @@
 //   { "<setup>": [ { "name": "...", "fps": 10, "loop": true,
 //                    "arms": [ { "q": [[j1..j7], ...], "grip": [0.04, ...] } ] } ] }
 // One `arms` entry per arm (2 for bimanual, 1 for panda). `grip` is optional,
-// in metres per finger. With no file the viewers fall back to idle motion.
+// in metres per finger for HandUMI; 0 to 0.04 maps closed to open for Robotiq.
+// With no file the viewers use a stationary ready pose.
 //
 // ── Adding props (tables, camera mounts, fixtures) ──────────────────────────
 // Define window.robotSceneExtras BEFORE this module runs:
@@ -95,7 +97,7 @@ const SETUPS = {
         // what actually points the second arm at the shared payload.
         arms: [
             { position: [-0.5, 0, -0.1], yaw: -0.5 },
-            { position: [0.5, 0, -0.1], yaw: Math.PI + 0.5 }
+            { position: [0.5, 0, -0.1], yaw: Math.PI + 0.5, armColor: '#eeeeee' }
         ],
         payload: [0, 0.06, 0.22],
         camera: [1.9, 1.5, 2.3],
@@ -103,7 +105,7 @@ const SETUPS = {
     },
     panda: {
         model: 'panda',
-        label: 'Franka Emika Panda',
+        label: 'Franka Emika Panda + Robotiq 2F-85',
         table: { width: 1.4, depth: 1.05 },
         arms: [{ position: [-0.22, 0, -0.18], yaw: -0.524 }],
         payload: [0.24, 0.05, 0.2],
@@ -154,7 +156,24 @@ async function fetchModel(name) {
 
 // Builds one instance. Meshes are cloned, so the two iiwa share geometry and
 // materials — the second arm costs no extra download or GPU memory.
-function instantiate({ kin, meshes }) {
+const armMaterials = new WeakMap();
+
+function armMaterial(material, color) {
+    const { r, g, b } = material.color;
+    const orange = r > g * 1.5 && g > b * 1.5;
+    const shell = Math.abs(r - g) < 0.001 && Math.abs(g - b) < 0.001 && r > 0.35 && r < 0.45;
+    if (!orange && !shell) return material;
+    if (!armMaterials.has(material)) armMaterials.set(material, new Map());
+    const variants = armMaterials.get(material);
+    if (!variants.has(color)) {
+        const variant = material.clone();
+        variant.color.set(color);
+        variants.set(color, variant);
+    }
+    return variants.get(color);
+}
+
+function instantiate({ kin, meshes }, armColor) {
     const frames = [];
     const joints = new Map();
     const robotRoot = new THREE.Group(); // Z-up, as authored
@@ -180,7 +199,13 @@ function instantiate({ kin, meshes }) {
             // Object3D.clone SHARES geometry and materials with the cached
             // template. Flag them so disposeScene() leaves them alone —
             // disposing here would break every later instantiation.
-            clone.traverse(o => { o.userData.sharedAsset = true; });
+            clone.traverse(o => {
+                o.userData.sharedAsset = true;
+                if (armColor && o.isMesh && !link.name.startsWith('handumi_') && link.name !== 'link7') {
+                    o.material = Array.isArray(o.material)
+                        ? o.material.map(m => armMaterial(m, armColor)) : armMaterial(o.material, armColor);
+                }
+            });
             jointNode.add(clone);
         }
 
@@ -192,7 +217,8 @@ function instantiate({ kin, meshes }) {
                 node: jointNode,
                 axis: new THREE.Vector3().fromArray(link.joint.axis),
                 type: link.joint.type,
-                range: link.joint.range
+                range: link.joint.range,
+                pivot: link.joint.pos ? new THREE.Vector3().fromArray(link.joint.pos) : null
             });
         }
     });
@@ -208,9 +234,7 @@ function instantiate({ kin, meshes }) {
     object.add(zUp);
 
     const armJoints = [...joints.keys()].filter(n => ARM_JOINT.test(n)).sort();
-    const gripJoints = [...joints.keys()].filter(n => n.startsWith('finger_joint'));
-
-    return { object, joints, armJoints, gripJoints };
+    return { object, joints, armJoints, gripper: kin.gripper };
 }
 
 function applyJoint(joint, value) {
@@ -221,13 +245,23 @@ function applyJoint(joint, value) {
         joint.node.position.copy(joint.axis).multiplyScalar(v);
     } else {
         joint.node.quaternion.setFromAxisAngle(joint.axis, v);
+        if (joint.pivot) {
+            joint.node.position.copy(joint.pivot).applyQuaternion(joint.node.quaternion)
+                .negate().add(joint.pivot);
+        }
     }
 }
 
-function setPose(robot, q, grip) {
+function setPose(robot, q, grip = 0.03) {
     robot.armJoints.forEach((name, i) => applyJoint(robot.joints.get(name), q[i]));
-    if (grip !== undefined) {
-        robot.gripJoints.forEach(name => applyJoint(robot.joints.get(name), grip));
+    if (robot.gripper) {
+        const opening = Math.max(0, Math.min(1, grip / robot.gripper.open));
+        Object.entries(robot.gripper.joints).forEach(([name, poses]) => {
+            const sample = opening * (poses.length - 1);
+            const low = Math.floor(sample);
+            const high = Math.min(low + 1, poses.length - 1);
+            applyJoint(robot.joints.get(name), poses[low] + (poses[high] - poses[low]) * (sample - low));
+        });
     }
 }
 
@@ -303,11 +337,9 @@ async function loadTrajectories() {
         if (!res.ok) return {};
         return await res.json();
     } catch {
-        return {}; // optional file — idle motion is the fallback
+        return {}; // optional file - stationary ready poses are the fallback
     }
 }
-
-const smoothstep = a => a * a * (3 - 2 * a);
 
 function sampleTrack(track, t, fps, loop) {
     const frames = track.length;
@@ -319,7 +351,7 @@ function sampleTrack(track, t, fps, loop) {
     const f = u * fps;
     const i0 = Math.floor(f) % frames;
     const i1 = loop === false ? Math.min(i0 + 1, frames - 1) : (i0 + 1) % frames;
-    const a = smoothstep(f - Math.floor(f));
+    const a = f - Math.floor(f);
 
     const q0 = track[i0];
     const q1 = track[i1] || q0;
@@ -336,20 +368,14 @@ function sampleTrajectory(traj, t) {
 }
 
 // Fallback idle motion, expressed around each robot's neutral pose.
-const IDLE_BASE = {
-    iiwa: [0, 0.45, 0, -1.30, 0, 0.95, 0],
-    panda: [0, -0.5, 0, -2.2, 0, 1.7, 0.79]
+// Valid downward-facing poses when the optional motion file is unavailable.
+const REST_POSES = {
+    iiwa: [
+        [-0.3196585, 0.2603071, -0.0455756, -1.7831835, 0.0131687, 1.0983954, -0.8696931],
+        [0.3155760, 0.2564195, 0.0463070, -1.7882477, -0.0131924, 1.0972239, 0.8663879]
+    ],
+    panda: [[-0.0665258, -0.1958685, -0.0431810, -2.3595409, -0.0101313, 2.1638265, 0.9435765]]
 };
-
-function idlePose(model, t, side) {
-    const base = IDLE_BASE[model] || IDLE_BASE.iiwa;
-    const phase = side > 0 ? 0 : Math.PI;
-    const s = Math.sin(t * 0.4 + phase);
-    return base.map((v, k) => {
-        const amp = [0.22, 0.12, 0.16, 0.14, 0.2, 0.12, 0.3][k];
-        return v + amp * Math.sin(t * (0.32 + k * 0.03) + phase + k * 0.4) * (k === 0 ? side : 1) + (k === 0 ? 0 : 0.02 * s);
-    });
-}
 
 // ============================================
 // Viewer
@@ -463,7 +489,7 @@ class RobotViewer {
         const model = await fetchModel(this.setup.model);
 
         this.robots = this.setup.arms.map((placement, i) => {
-            const robot = instantiate(model);
+            const robot = instantiate(model, placement.armColor);
             robot.object.position.fromArray(placement.position);
             robot.object.rotation.y = placement.yaw;
             robot.side = i === 0 ? -1 : 1;
@@ -536,7 +562,7 @@ class RobotViewer {
             });
         } else {
             this.robots.forEach(robot => {
-                setPose(robot, idlePose(this.setup.model, t, robot.side), 0.03);
+                setPose(robot, REST_POSES[this.setup.model][robot.side > 0 ? 1 : 0], 0.03);
             });
         }
 
@@ -545,13 +571,6 @@ class RobotViewer {
 
     setPlaying(on) {
         this.playing = on;
-        this.needsRender = true;
-    }
-
-    selectTrajectory(index) {
-        this.trajectoryIndex = index;
-        this.elapsed = 0;
-        this.updatePose(0);
         this.needsRender = true;
     }
 
@@ -603,27 +622,6 @@ function buildControls(viewer) {
         syncLabel();
     });
     bar.appendChild(playBtn);
-
-    if (viewer.trajectories.length > 1) {
-        const select = document.createElement('select');
-        select.className = 'viewer-select';
-        select.setAttribute('aria-label', 'Trajectory');
-        viewer.trajectories.forEach((t, i) => {
-            const opt = document.createElement('option');
-            opt.value = String(i);
-            opt.textContent = t.name || `Trajectory ${i + 1}`;
-            select.appendChild(opt);
-        });
-        select.addEventListener('change', () => viewer.selectTrajectory(Number(select.value)));
-        bar.appendChild(select);
-    } else {
-        const label = document.createElement('span');
-        label.className = 'body-xs viewer-track';
-        label.textContent = viewer.trajectory
-            ? (viewer.trajectory.name || 'Trajectory')
-            : 'Idle motion';
-        bar.appendChild(label);
-    }
 }
 
 // ============================================

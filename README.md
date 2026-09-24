@@ -36,3 +36,10 @@ to its publication entry in `data/content.json`:
 
 Leave `image` out for a text-only entry. Images appear beside the publication
 on desktop and above it on mobile; figures are shown without cropping.
+
+## Robot models
+
+The Franka uses a Robotiq 2F-85. Both KUKA arms use the supplied HandUMI gripper
+and camera assembly; the left arm is orange and gray, and the right is white. Only compact
+GLBs are needed to serve the site. See [model attribution and regeneration](assets/robots/ATTRIBUTION.md)
+for sources and conversion commands.

@@ -875,26 +875,6 @@ html:not([data-theme="dark"]) .icon-sun {
     min-height: 1.75rem;
 }
 
-.viewer-track {
-    opacity: 0.7;
-}
-
-.viewer-select {
-    font-family: inherit;
-    font-size: 0.8rem;
-    font-weight: 600;
-    padding: 0.25rem 0.5rem;
-    color: var(--foreground);
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 0.25rem;
-    cursor: pointer;
-}
-
-.viewer-select:hover {
-    border-color: var(--accent);
-}
-
 .viewer figcaption {
     display: flex;
     flex-direction: column;
