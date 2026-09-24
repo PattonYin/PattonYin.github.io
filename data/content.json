@@ -36,7 +36,7 @@
       "title": "DUO Policy: Learning Fine-Grained Manipulation from Human Videos via Dual-Actor Policy",
       "image": "assets/publications/duo-policy.jpg",
       "imageAlt": "DUO Policy combines a coarse human-hand policy with a fine-grained robot policy for coffee pod insertion.",
-      "authors": "Mingxi Jia, Patton Jiyang Yin, Haojie Huang, Ivy Xiao He, Xuanru Liu, Gefei Liu, Dian Wang, Stefanie Tellex",
+      "authors": "Mingxi Jia, Jiyang (Patton) Yin, Haojie Huang, Ivy Xiao He, Xuanru Liu, Gefei Liu, Dian Wang, Stefanie Tellex",
       "venue": "IROS Workshop on Compositional and Modular Learning",
       "year": 2026,
       "project": "https://mingxi-jia.github.io/duo_policy_site/",
@@ -55,7 +55,7 @@
     },
     {
       "title": "Global Web, Local Privacy? An International Review of Web Tracking",
-      "authors": "Harry Yu*, Patton Yin*, Sebastian Zimmeck",
+      "authors": "Harry Yu*, Jiyang (Patton) Yin*, Sebastian Zimmeck",
       "note": "*Equal contribution",
       "venue": "Pragmatic Cybersecurity, 1(1), Article 5",
       "year": 2026,
