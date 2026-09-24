@@ -295,7 +295,10 @@ ul li::marker {
     transition: background 0.3s ease;
 }
 
-.navbar #theme-toggle {
+.navbar .appearance-controls {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
     margin-left: auto;
     flex-shrink: 0;
 }
