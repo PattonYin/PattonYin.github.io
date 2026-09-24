@@ -95,19 +95,30 @@ function initNavigation() {
         });
     };
 
-    const observer = new IntersectionObserver((entries) => {
-        // Prefer the entry closest to the top of the viewport
-        const visible = entries
-            .filter(entry => entry.isIntersecting)
-            .sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top);
-
-        if (visible.length) {
-            setActive(visible[0].target.id);
+    const updateActive = () => {
+        let active = sections[0];
+        if (window.scrollY > 0) {
+            sections.forEach(section => {
+                const offset = parseFloat(getComputedStyle(section).scrollMarginTop) || 0;
+                if (section.getBoundingClientRect().top <= offset + 1) active = section;
+            });
+            // The final section may be too short to reach the sticky navbar.
+            if (window.scrollY + window.innerHeight >= document.documentElement.scrollHeight - 1) {
+                const target = sections.find(section => `#${section.id}` === window.location.hash);
+                const offset = target ? parseFloat(getComputedStyle(target).scrollMarginTop) || 0 : 0;
+                active = target && target.getBoundingClientRect().top >= offset - 1
+                    ? target : sections[sections.length - 1];
+            }
         }
-    }, { rootMargin: '-20% 0px -70% 0px' });
+        setActive(active.id);
+    };
 
+    window.addEventListener('scroll', updateActive, { passive: true });
+    window.addEventListener('resize', updateActive);
+    window.addEventListener('hashchange', updateActive);
+    const observer = new ResizeObserver(updateActive);
     sections.forEach(section => observer.observe(section));
-    setActive(sections[0].id);
+    updateActive();
 }
 
 // ============================================
