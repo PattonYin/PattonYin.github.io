@@ -1,0 +1,16 @@
+[
+  {
+    "slug": "welcome",
+    "title": "Welcome to My Blog",
+    "date": "2026-02-02",
+    "description": "An introduction to this blog and what I plan to write about.",
+    "tags": ["personal", "research"]
+  },
+  {
+    "slug": "problem-solving-approach",
+    "title": "My Approach to Problem Solving",
+    "date": "2026-01-15",
+    "description": "How I break down complex research problems into manageable pieces.",
+    "tags": ["problem-solving", "research", "productivity"]
+  }
+]

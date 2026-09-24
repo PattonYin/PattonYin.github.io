@@ -1,0 +1,12 @@
+# Raw recordings: only publish compressed media in assets/gallery/.
+/Gallary/
+*.mov
+*.MOV
+*.webm
+
+# Local tooling and previews.
+/.claude/
+/.preview/
+__pycache__/
+.DS_Store
+Thumbs.db

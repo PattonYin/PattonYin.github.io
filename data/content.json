@@ -1,0 +1,129 @@
+{
+  "projects": [
+    {
+      "title": "Research Project Alpha",
+      "description": "A machine learning approach to [problem domain]. This project explores novel techniques for improving accuracy in [specific application].",
+      "tags": [
+        "Machine Learning",
+        "Python",
+        "PyTorch"
+      ],
+      "link": "https://github.com/yourusername/project-alpha"
+    },
+    {
+      "title": "Data Visualization Tool",
+      "description": "An interactive tool for visualizing complex datasets. Built to help researchers explore and understand large-scale data patterns.",
+      "tags": [
+        "JavaScript",
+        "D3.js",
+        "Data Science"
+      ],
+      "link": "https://github.com/yourusername/data-viz"
+    },
+    {
+      "title": "NLP Analysis Framework",
+      "description": "A framework for analyzing natural language patterns in academic papers. Helps identify trends and connections across research domains.",
+      "tags": [
+        "NLP",
+        "Python",
+        "BERT"
+      ],
+      "link": ""
+    }
+  ],
+  "publications": [
+    {
+      "title": "Low Cost, Easily Manufactured, Highly Flexible Strain and Touch Sensitive Fiber for Robotics Applications",
+      "authors": "Christian Diaz Herrera, Srushti Raste, Simin Liu, Miles Modeste, Jiyang (Patton) Yin, Katelyn McCall, Yuxing Jared Yao, Roopkamal Chahal, Simon Chidley, Trung Ha, T. David Westmoreland, Sonia Roberts",
+      "venue": "IEEE International Conference on Robotics and Automation (ICRA)",
+      "year": 2026,
+      "pdf": "https://arxiv.org/pdf/2606.13352",
+      "doi": "",
+      "code": ""
+    },
+    {
+      "title": "Global Web, Local Privacy? An International Review of Web Tracking",
+      "authors": "Harry Yu*, Patton Yin*, Sebastian Zimmeck",
+      "note": "*Equal contribution",
+      "venue": "Pragmatic Cybersecurity, 1(1), Article 5",
+      "year": 2026,
+      "pdf": "https://media.sciltp.com/articles/2603003347/2603003347.pdf",
+      "doi": "10.53941/pc.2026.100005",
+      "code": ""
+    }
+  ],
+  "gallery": [
+    {
+      "src": "assets/gallery/gaze-teleop.mp4",
+      "caption": "Teleoperated demonstration collection with a live gaze overlay and recording HUD.",
+      "alt": "Egocentric view of a gripper manipulating blocks near a green plate, gaze marker overlaid",
+      "tags": [
+        "teleop",
+        "gaze"
+      ],
+      "title": "Demonstrations through human eyes"
+    },
+    {
+      "src": "assets/gallery/lab-calibration.mp4",
+      "caption": "Calibration board and handheld collection rig on the lab bench.",
+      "alt": "Lab desk with a checkerboard calibration mat, cameras and a monitor of camera feeds",
+      "tags": [
+        "hardware",
+        "calibration"
+      ],
+      "title": "From the lab bench"
+    },
+    {
+      "src": "assets/gallery/gaze-prediction.mp4",
+      "caption": "Comparing predicted against measured gaze saliency across a demonstration.",
+      "alt": "Analysis tool showing an egocentric video alongside gaze saliency plots",
+      "tags": [
+        "gaze",
+        "perception"
+      ],
+      "title": "Understanding visual attention"
+    },
+    {
+      "src": "assets/gallery/pointcloud-recon.mp4",
+      "caption": "Point-cloud reconstruction of the workspace.",
+      "alt": "Coloured 3D point cloud of a scene",
+      "tags": [
+        "perception",
+        "3d"
+      ],
+      "title": "Reconstructing the workspace"
+    },
+    {
+      "src": "assets/gallery/dataset-viewer.mp4",
+      "caption": "Episode viewer — wrist, third-person and depth streams aligned on one timeline.",
+      "alt": "Multi-panel dataset viewer showing several synchronised camera streams",
+      "tags": [
+        "data",
+        "tooling"
+      ],
+      "title": "A closer look at the data"
+    }
+  ],
+  "timeline": [
+    {
+      "date": "2024 - Present",
+      "title": "Master's Student in Computer Science",
+      "subtitle": "University Name • Advisor: Prof. Example"
+    },
+    {
+      "date": "2023 - 2024",
+      "title": "Research Intern",
+      "subtitle": "Research Lab Name • Worked on machine learning applications"
+    },
+    {
+      "date": "2020 - 2024",
+      "title": "Bachelor's in Computer Science",
+      "subtitle": "Previous University • GPA: 3.9/4.0"
+    },
+    {
+      "date": "Summer 2022",
+      "title": "Software Engineering Intern",
+      "subtitle": "Tech Company Name • Full-stack development"
+    }
+  ]
+}
