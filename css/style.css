@@ -2,6 +2,7 @@
    UNIFIED VISUAL IDENTITY SYSTEM
    Styled after "Academic Portfolio Astro"
    (github.com/rubzip/academic-portfolio-astro)
+   MIT license notice: ../THIRD_PARTY_NOTICES.md
    Ported to plain CSS — no Tailwind required.
    =========================================== */
 
@@ -543,7 +544,13 @@ ul li::marker {
     object-fit: contain;
     background: #fff;
     border: 1px solid var(--border);
-    border-radius: 0.25rem;
+    border-radius: 0.75rem;
+}
+
+@media (min-width: 769px) {
+    #publications-list .card {
+        align-items: center;
+    }
 }
 
 /* --- Tags (accent text, not pills) --- */

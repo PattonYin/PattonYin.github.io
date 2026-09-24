@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" data-palette="default" data-theme="dark">
+<html lang="en" data-palette="default" data-theme="light">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -14,7 +14,7 @@
 
     <link rel="stylesheet" href="css/style.css">
     <!-- Highlight.js for code syntax highlighting -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css" id="hljs-theme">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github.min.css" id="hljs-theme">
 
     <!-- three.js for the robot viewers (bare specifiers resolved via import map) -->
     <script type="importmap">
@@ -29,7 +29,7 @@
     <!-- Set theme before first paint to avoid a flash of the wrong palette -->
     <script>
         (function () {
-            var theme = localStorage.getItem('theme') || 'dark';
+            var theme = localStorage.getItem('theme') || 'light';
             document.documentElement.setAttribute('data-theme', theme);
         })();
     </script>
@@ -185,7 +185,6 @@
                     <span class="body-xs">&copy; <span id="footer-year">2026</span> Jiyang (Patton) Yin</span>
                 </div>
                 <div class="footer-group">
-                    <span class="body-xs">Styled after <a href="https://github.com/rubzip/academic-portfolio-astro/" target="_blank" rel="noopener noreferrer" class="link">Academic Portfolio Astro</a></span>
                     <button id="palette-toggle" class="btn-icon" aria-label="Toggle color palette" title="Toggle color palette">
                         <svg class="icon icon-sm" aria-hidden="true"><use href="#i-rss"></use></svg>
                     </button>
