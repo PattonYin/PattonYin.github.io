@@ -215,8 +215,9 @@ function renderPublications(publications) {
 
     list.innerHTML = publications.map(pub => {
         // The title carries the link, so no separate PDF/DOI row. Preference
-        // order: PDF, then DOI landing page, then code repo.
-        const titleHref = pub.pdf
+        // order: project page, PDF, DOI landing page, then code repo.
+        const titleHref = pub.project
+            || pub.pdf
             || (pub.doi ? `https://doi.org/${pub.doi}` : '')
             || pub.code;
         const title = titleHref
@@ -224,16 +225,16 @@ function renderPublications(publications) {
             : `<span class="card-title">${escapeHtml(pub.title)}</span>`;
 
         return `
-            <article class="card publication">
-                <span class="publication-year">${escapeHtml(String(pub.year))}</span>
+            <article class="card">
                 <div class="card-content">
                     ${title}
                     <div class="card-meta">
                         <div class="meta-row">
-                            <span>${highlightSelf(pub.authors)}</span>
+                            <span>${icon('user')}<span>${highlightSelf(pub.authors)}</span></span>
                         </div>
                         <div class="meta-row">
-                            <span>${escapeHtml(pub.venue)}</span>
+                            <span>${icon('institution')}<span>${escapeHtml(pub.venue)}</span></span>
+                            <span>${icon('calendar')}<span>${escapeHtml(String(pub.year))}</span></span>
                         </div>
                     </div>
                     ${pub.note ? `<p class="pub-note">${escapeHtml(pub.note)}</p>` : ''}

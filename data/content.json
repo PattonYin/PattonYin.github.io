@@ -33,6 +33,16 @@
   ],
   "publications": [
     {
+      "title": "DUO Policy: Learning Fine-Grained Manipulation from Human Videos via Dual-Actor Policy",
+      "authors": "Mingxi Jia, Patton Yin, Haojie Huang, Ivy Xiao He, Xuanru Liu, Gefei Liu, Dian Wang, Stefanie Tellex",
+      "venue": "Under review",
+      "year": 2026,
+      "project": "https://mingxi-jia.github.io/duo_policy_site/",
+      "pdf": "https://drive.google.com/file/d/1VCyWh4Fu32PReUp3rh0L2i52juAcGGtv/view?usp=sharing",
+      "doi": "",
+      "code": ""
+    },
+    {
       "title": "Low Cost, Easily Manufactured, Highly Flexible Strain and Touch Sensitive Fiber for Robotics Applications",
       "authors": "Christian Diaz Herrera, Srushti Raste, Simin Liu, Miles Modeste, Jiyang (Patton) Yin, Katelyn McCall, Yuxing Jared Yao, Roopkamal Chahal, Simon Chidley, Trung Ha, T. David Westmoreland, Sonia Roberts",
       "venue": "IEEE International Conference on Robotics and Automation (ICRA)",

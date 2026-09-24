@@ -5,6 +5,8 @@
    Ported to plain CSS — no Tailwind required.
    =========================================== */
 
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap");
+
 /* --- Theme Palettes ---------------------------------
    Swap palettes by setting data-palette="notepad" on
    <html>. Light/dark is driven by data-theme.
@@ -13,12 +15,12 @@
 /* light_default */
 :root,
 html[data-palette="default"] {
-    --background: #f8f7f3;
-    --foreground: #292e2b;
-    --accent: #42634f;
-    --text-muted: #666c65;
-    --border: #dddfd6;
-    --surface: #eeeee7;
+    --background: #f9fafb;
+    --foreground: #111827;
+    --accent: #3b82f6;
+    --text-muted: #6b7280;
+    --border: #e5e7eb;
+    --surface: #f9fafb;
 }
 
 /* light_notepad */
@@ -33,12 +35,12 @@ html[data-palette="notepad"] {
 
 /* dark_default */
 html[data-theme="dark"] {
-    --background: #1b211e;
-    --foreground: #eceee5;
-    --accent: #b0c9a7;
-    --text-muted: #a6b0a5;
-    --border: #384139;
-    --surface: #252d27;
+    --background: #212737;
+    --foreground: #eaedf3;
+    --accent: #ff6b01;
+    --text-muted: #343f60;
+    --border: #ab4b08;
+    --surface: #212737;
 }
 
 /* dark_notepad */
@@ -67,7 +69,7 @@ html[data-palette="notepad"][data-theme="dark"] {
 }
 
 html {
-    font-family: "Segoe UI", system-ui, sans-serif;
+    font-family: "Inter", system-ui, sans-serif;
     scroll-behavior: smooth;
 }
 
@@ -192,7 +194,7 @@ ul li::marker {
 .layout {
     display: flex;
     margin: 0 auto;
-    max-width: 78rem;
+    max-width: 72rem; /* max-w-6xl */
     width: 100%;
     min-height: 100vh;
 }
@@ -204,12 +206,11 @@ ul li::marker {
 /* --- Sidebar --- */
 
 .sidebar {
-    width: 290px;
+    width: 280px;
     height: 100vh;
     position: sticky;
     top: 0;
-    padding: 5.5rem 2.5rem 2rem;
-    border-right: 1px solid var(--border);
+    padding: 4rem 1.5rem 1.5rem;
     display: flex;
     flex-direction: column;
     gap: 1.5rem;
@@ -221,17 +222,16 @@ ul li::marker {
 .sidebar-inner {
     display: flex;
     flex-direction: column;
-    align-items: flex-start;
-    text-align: left;
-    gap: 1.5rem;
+    align-items: center;
+    text-align: center;
 }
 
 .sidebar-avatar {
     width: 160px;
     height: 160px;
-    border-radius: 0.5rem;
+    border-radius: 50%;
     object-fit: cover;
-    border: 1px solid var(--border);
+    border: 2px solid var(--border);
     transition: border-color 0.3s ease;
 }
 
@@ -242,27 +242,16 @@ ul li::marker {
 .sidebar-text {
     display: flex;
     flex-direction: column;
-    align-items: flex-start;
+    align-items: center;
 }
 
 .sidebar-name {
-    font-family: Georgia, "Times New Roman", serif;
-    font-size: 2rem;
-    font-weight: 400;
+    font-size: 1.5rem;
+    font-weight: 800;
     letter-spacing: -0.02em;
     line-height: 1.2;
     color: var(--foreground);
     margin: 0;
-}
-
-.sidebar-nickname {
-    display: block;
-    margin: 0.5rem 0 1.5rem;
-    font-family: "Segoe UI", system-ui, sans-serif;
-    font-size: 0.85rem;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    color: var(--text-muted);
 }
 
 .sidebar-info {
@@ -280,7 +269,7 @@ ul li::marker {
     color: var(--foreground);
     opacity: 0.8;
     line-height: 1.5;
-    padding: 0;
+    padding: 0 0.5rem;
     margin-top: 0.5rem;
 }
 
@@ -290,14 +279,13 @@ ul li::marker {
     flex-wrap: wrap;
     align-items: center;
     justify-content: center;
-    margin-top: 1.25rem;
+    margin-top: 0.75rem;
 }
 
 /* --- Navbar --- */
 
 .navbar {
-    padding: 1.75rem 3.5rem;
-    border-bottom: 1px solid var(--border);
+    padding: 1rem 1.5rem;
     display: flex;
     justify-content: flex-start;
     align-items: center;
@@ -350,7 +338,7 @@ ul li::marker {
     bottom: -0.5rem;
     left: 0;
     width: 0;
-    height: 2px;
+    height: 4px;
     background-color: var(--accent);
     transition: width 0.3s ease;
 }
@@ -372,15 +360,14 @@ ul li::marker {
 }
 
 .main-body {
-    padding: 3.25rem 3.5rem 1rem;
+    padding: 1.5rem 2rem 2rem;
     flex: 1;
 }
 
 /* --- Footer --- */
 
 .footer {
-    padding: 1.5rem 3.5rem;
-    border-top: 1px solid var(--border);
+    padding: 1.5rem 2rem;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -401,30 +388,14 @@ ul li::marker {
    =========================================== */
 
 .page-header {
-    margin-bottom: 1.75rem;
-}
-
-.eyebrow,
-.section-index {
-    font-family: "Segoe UI", system-ui, sans-serif;
-    font-size: 0.68rem;
-    font-weight: 600;
-    letter-spacing: 0.13em;
-    text-transform: uppercase;
-    color: var(--text-muted);
-}
-
-.eyebrow {
-    margin-bottom: 1.25rem;
-    color: var(--accent);
+    margin-bottom: 2rem;
 }
 
 .page-title {
-    font-family: Georgia, "Times New Roman", serif;
-    font-size: clamp(2.1rem, 3.5vw, 3rem);
-    font-weight: 400;
-    letter-spacing: -0.035em;
-    line-height: 1.15;
+    font-size: 1.5rem;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    line-height: 1.2;
     color: var(--foreground);
     margin: 0;
 }
@@ -438,47 +409,16 @@ ul li::marker {
 }
 
 .section {
-    margin-bottom: 2.5rem;
+    margin-bottom: 2rem;
     scroll-margin-top: 5rem;
 }
 
 .section-title {
-    font-family: Georgia, "Times New Roman", serif;
-    font-size: 1.65rem;
-    font-weight: 400;
+    font-size: 1.2rem;
+    font-weight: 700;
     letter-spacing: -0.01em;
     color: var(--foreground);
-    margin: 0;
-}
-
-.section-heading {
-    display: flex;
-    align-items: baseline;
-    justify-content: space-between;
-    flex-wrap: wrap;
-    gap: 0.75rem;
-    margin-bottom: 1.5rem;
-}
-
-.section-lede {
-    font-size: 0.9rem;
-    color: var(--text-muted);
-    margin: -0.5rem 0 1.5rem;
-}
-
-.research-interests {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.5rem;
-    margin-top: 1.5rem;
-}
-
-.research-interests span {
-    padding: 0.4rem 0.7rem;
-    border: 1px solid var(--border);
-    border-radius: 0.25rem;
-    font-size: 0.75rem;
-    color: var(--accent);
+    margin: 0 0 1rem;
 }
 
 /* ===========================================
@@ -509,9 +449,9 @@ ul li::marker {
 }
 
 .card-title {
-    font-size: 1.1rem;
-    font-weight: 600;
-    line-height: 1.5;
+    font-size: 1.25rem;
+    font-weight: 700;
+    line-height: 1.3;
     letter-spacing: -0.01em;
     text-decoration: none;
     color: var(--foreground);
@@ -526,9 +466,8 @@ ul li::marker {
 }
 
 .card-meta {
-    font-size: 0.82rem;
-    font-weight: 400;
-    line-height: 1.65;
+    font-size: 0.85rem;
+    font-weight: 500;
     color: var(--foreground);
     opacity: 0.75;
     display: flex;
@@ -591,38 +530,6 @@ ul li::marker {
     margin-bottom: 0.25rem;
 }
 
-.publication {
-    display: grid;
-    grid-template-columns: 3rem minmax(0, 1fr);
-    gap: 1.25rem;
-    padding: 1.5rem 0;
-}
-
-.publication + .publication {
-    border-top: 1px solid var(--border);
-}
-
-.publication-year {
-    padding-top: 0.3rem;
-    font-size: 0.8rem;
-    color: var(--accent);
-}
-
-.publication .card-title::after {
-    content: ' ↗';
-    color: var(--accent);
-    white-space: nowrap;
-}
-
-.publication .card-meta {
-    opacity: 1;
-    color: var(--text-muted);
-}
-
-.publication .meta-row > span {
-    display: block;
-}
-
 /* --- Tags (accent text, not pills) --- */
 
 .tag {
@@ -682,9 +589,8 @@ ul li::marker {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    width: 40px;
-    height: 40px;
-    flex-shrink: 0;
+    width: 32px;
+    height: 32px;
     padding: 0;
     border-radius: 50%;
     border: 1px solid var(--border);
@@ -711,11 +617,7 @@ html:not([data-theme="dark"]) .icon-sun {
 
 .social-link {
     display: inline-flex;
-    align-items: center;
-    gap: 0.5rem;
-    padding: 0.4rem 0;
-    font-size: 0.85rem;
-    text-decoration: none;
+    padding: 0.125rem;
     color: var(--foreground);
     opacity: 0.75;
     transition: all 0.3s ease;
@@ -728,8 +630,8 @@ html:not([data-theme="dark"]) .icon-sun {
 }
 
 .social-link .icon {
-    width: 20px;
-    height: 20px;
+    width: 28px;
+    height: 28px;
 }
 
 /* --- Timeline --- */
@@ -804,15 +706,15 @@ html:not([data-theme="dark"]) .icon-sun {
 .item-list {
     display: flex;
     flex-direction: column;
-    gap: 0;
+    gap: 2rem;
 }
 
 /* --- Dividers --- */
 
 .divider {
     border: none;
-    border-top: 1px solid var(--border);
-    margin: 2.75rem 0;
+    border-top: 1px dashed var(--border);
+    margin: 2rem 0;
 }
 
 .divider-solid {
@@ -863,222 +765,6 @@ html:not([data-theme="dark"]) .icon-sun {
 
 .icon-muted {
     opacity: 0.7;
-}
-
-/* ===========================================
-   GALLERY
-   =========================================== */
-
-.gallery-grid {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 2rem 1.25rem;
-}
-
-.gallery-item {
-    margin: 0;
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-    cursor: pointer;
-    min-width: 0;
-}
-
-.gallery-thumb {
-    position: relative;
-    aspect-ratio: 16 / 10;
-    border: 1px solid var(--border);
-    border-radius: 0.5rem;
-    background: var(--surface);
-    overflow: hidden;
-}
-
-.gallery-thumb img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    display: block;
-    transition: transform 0.3s ease;
-}
-
-.gallery-item:hover .gallery-thumb img {
-    transform: scale(1.04);
-}
-
-.gallery-item:hover .gallery-thumb,
-.gallery-item:focus-visible .gallery-thumb {
-    border-color: var(--accent);
-}
-
-/* Play badge on video thumbnails */
-.gallery-play {
-    position: absolute;
-    right: 0.5rem;
-    bottom: 0.5rem;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 34px;
-    height: 34px;
-    padding-left: 3px;
-    border-radius: 50%;
-    background: rgba(0, 0, 0, 0.55);
-    color: #fff;
-    font-size: 0.85rem;
-    line-height: 1;
-    backdrop-filter: blur(4px);
-    transition: background 0.2s ease, transform 0.2s ease;
-}
-
-.gallery-item:hover .gallery-play,
-.gallery-item:focus-visible .gallery-play {
-    background: var(--accent);
-    transform: scale(1.08);
-}
-
-.gallery-item--missing .gallery-play {
-    display: none;
-}
-
-.lightbox-stage video {
-    max-width: 100%;
-    max-height: 74vh;
-    border-radius: 0.25rem;
-    display: block;
-    background: #000;
-}
-
-/* Placeholder shown when the photo file isn't there yet */
-.gallery-missing {
-    position: absolute;
-    inset: 0;
-    display: none;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 0.5rem;
-    padding: 1rem;
-    text-align: center;
-    opacity: 0.55;
-}
-
-.gallery-item--missing .gallery-missing {
-    display: flex;
-}
-
-.gallery-item--missing img {
-    visibility: hidden;
-}
-
-.gallery-item figcaption {
-    font-size: 0.85rem;
-    line-height: 1.5;
-    color: var(--foreground);
-    opacity: 0.85;
-}
-
-.gallery-title {
-    display: block;
-    font-size: 0.95rem;
-    font-weight: 600;
-    margin: 0.3rem 0;
-}
-
-.gallery-tags {
-    margin-bottom: 0;
-}
-
-.gallery-tags .tag {
-    font-size: 0.7rem;
-    font-weight: 500;
-}
-
-/* --- Lightbox --- */
-
-.lightbox {
-    gap: 0.5rem;
-}
-
-.lightbox-content {
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-    max-width: min(1100px, 100%);
-    max-height: 90vh;
-    min-width: 0;
-}
-
-.lightbox-stage {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    min-height: 0;
-}
-
-.lightbox-stage img {
-    max-width: 100%;
-    max-height: 74vh;
-    border-radius: 0.25rem;
-    display: block;
-}
-
-.lightbox-meta {
-    display: flex;
-    align-items: flex-start;
-    justify-content: space-between;
-    gap: 1.5rem;
-    color: #fff;
-}
-
-.lightbox-text {
-    color: #fff;
-    font-size: 0.9rem;
-    opacity: 0.95;
-}
-
-.lightbox-meta .tag {
-    color: #fff;
-    opacity: 0.75;
-}
-
-.lightbox-meta .body-xs {
-    color: #fff;
-    opacity: 0.7;
-    white-space: nowrap;
-}
-
-.lightbox-close {
-    position: absolute;
-    top: 1rem;
-    right: 1rem;
-}
-
-.lightbox-nav {
-    flex-shrink: 0;
-}
-
-@media (max-width: 768px) {
-    .lightbox {
-        padding: 0.75rem;
-    }
-
-    .lightbox-nav {
-        position: absolute;
-        bottom: 1rem;
-    }
-
-    .lightbox-prev {
-        left: 1rem;
-    }
-
-    .lightbox-next {
-        right: 1rem;
-    }
-
-    .lightbox-meta {
-        flex-direction: column;
-        gap: 0.5rem;
-    }
 }
 
 /* ===========================================
@@ -1431,7 +1117,7 @@ html:not([data-theme="dark"]) .icon-sun {
         height: auto;
         position: relative;
         border-right: none;
-        padding: 2rem 2.5rem;
+        padding: 1rem;
         flex-direction: row;
         flex-wrap: wrap;
         gap: 0.75rem;
@@ -1440,7 +1126,7 @@ html:not([data-theme="dark"]) .icon-sun {
     .sidebar-inner {
         flex-direction: row;
         text-align: left;
-        gap: 1.5rem;
+        gap: 0.75rem;
         align-items: center;
     }
 
@@ -1458,32 +1144,23 @@ html:not([data-theme="dark"]) .icon-sun {
     }
 
     .main-body {
-        padding: 2.5rem;
+        padding: 1rem 1.5rem;
     }
 
     .main-content {
         width: 100%;
         flex: none;
     }
-
-    .navbar,
-    .footer {
-        padding: 1.5rem 2.5rem;
-    }
-
-    .sidebar-nickname {
-        margin-bottom: 0.5rem;
-    }
 }
 
 @media (max-width: 768px) {
     .sidebar {
-        padding: 1.75rem 1.25rem;
+        padding: 0.75rem 1rem;
         gap: 0.5rem;
     }
 
     .sidebar-inner {
-        gap: 1rem;
+        gap: 0.5rem;
     }
 
     .sidebar-avatar {
@@ -1492,7 +1169,7 @@ html:not([data-theme="dark"]) .icon-sun {
     }
 
     .sidebar-name {
-        font-size: 1.6rem;
+        font-size: 1.25rem;
     }
 
     .sidebar-bio {
@@ -1500,16 +1177,7 @@ html:not([data-theme="dark"]) .icon-sun {
     }
 
     .main-body {
-        padding: 2rem 1.25rem;
-    }
-
-    .navbar,
-    .footer {
-        padding: 1.25rem;
-    }
-
-    .sidebar-socials {
-        margin-top: 0.5rem;
+        padding: 0.75rem 1rem;
     }
 
     .nav-links {
@@ -1528,25 +1196,5 @@ html:not([data-theme="dark"]) .icon-sun {
     .footer {
         flex-direction: column;
         align-items: flex-start;
-    }
-}
-
-@media (max-width: 480px) {
-    .gallery-grid {
-        grid-template-columns: minmax(0, 1fr);
-    }
-
-    .publication {
-        grid-template-columns: minmax(0, 1fr);
-        gap: 0.5rem;
-    }
-
-    .section-index {
-        font-size: 0.6rem;
-    }
-
-    .footer-group {
-        gap: 0.6rem;
-        flex-wrap: wrap;
     }
 }
