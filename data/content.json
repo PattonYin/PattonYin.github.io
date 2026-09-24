@@ -34,8 +34,10 @@
   "publications": [
     {
       "title": "DUO Policy: Learning Fine-Grained Manipulation from Human Videos via Dual-Actor Policy",
+      "image": "assets/publications/duo-policy.jpg",
+      "imageAlt": "DUO Policy combines a coarse human-hand policy with a fine-grained robot policy for coffee pod insertion.",
       "authors": "Mingxi Jia, Patton Yin, Haojie Huang, Ivy Xiao He, Xuanru Liu, Gefei Liu, Dian Wang, Stefanie Tellex",
-      "venue": "Under review",
+      "venue": "IROS Workshop on Compositional and Modular Learning",
       "year": 2026,
       "project": "https://mingxi-jia.github.io/duo_policy_site/",
       "pdf": "https://drive.google.com/file/d/1VCyWh4Fu32PReUp3rh0L2i52juAcGGtv/view?usp=sharing",

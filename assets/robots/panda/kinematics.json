@@ -1,0 +1,282 @@
+{
+ "name": "panda",
+ "links": [
+  {
+   "name": "link0",
+   "parent": -1,
+   "pos": [
+    0,
+    0,
+    0
+   ],
+   "joint": null,
+   "mesh": "link0.glb"
+  },
+  {
+   "name": "link1",
+   "parent": 0,
+   "pos": [
+    0.0,
+    0.0,
+    0.333
+   ],
+   "joint": {
+    "name": "joint1",
+    "axis": [
+     0.0,
+     0.0,
+     1.0
+    ],
+    "type": "hinge",
+    "range": [
+     -2.8973,
+     2.8973
+    ]
+   },
+   "mesh": "link1.glb"
+  },
+  {
+   "name": "link2",
+   "parent": 1,
+   "pos": [
+    0,
+    0,
+    0
+   ],
+   "joint": {
+    "name": "joint2",
+    "axis": [
+     0.0,
+     0.0,
+     1.0
+    ],
+    "type": "hinge",
+    "range": [
+     -1.7628,
+     1.7628
+    ]
+   },
+   "quat": [
+    0.7071067811865475,
+    -0.7071067811865475,
+    0.0,
+    0.0
+   ],
+   "mesh": "link2.glb"
+  },
+  {
+   "name": "link3",
+   "parent": 2,
+   "pos": [
+    0.0,
+    -0.316,
+    0.0
+   ],
+   "joint": {
+    "name": "joint3",
+    "axis": [
+     0.0,
+     0.0,
+     1.0
+    ],
+    "type": "hinge",
+    "range": [
+     -2.8973,
+     2.8973
+    ]
+   },
+   "quat": [
+    0.7071067811865475,
+    0.7071067811865475,
+    0.0,
+    0.0
+   ],
+   "mesh": "link3.glb"
+  },
+  {
+   "name": "link4",
+   "parent": 3,
+   "pos": [
+    0.0825,
+    0.0,
+    0.0
+   ],
+   "joint": {
+    "name": "joint4",
+    "axis": [
+     0.0,
+     0.0,
+     1.0
+    ],
+    "type": "hinge",
+    "range": [
+     -3.0718,
+     -0.0698
+    ]
+   },
+   "quat": [
+    0.7071067811865475,
+    0.7071067811865475,
+    0.0,
+    0.0
+   ],
+   "mesh": "link4.glb"
+  },
+  {
+   "name": "link5",
+   "parent": 4,
+   "pos": [
+    -0.0825,
+    0.384,
+    0.0
+   ],
+   "joint": {
+    "name": "joint5",
+    "axis": [
+     0.0,
+     0.0,
+     1.0
+    ],
+    "type": "hinge",
+    "range": [
+     -2.8973,
+     2.8973
+    ]
+   },
+   "quat": [
+    0.7071067811865475,
+    -0.7071067811865475,
+    0.0,
+    0.0
+   ],
+   "mesh": "link5.glb"
+  },
+  {
+   "name": "link6",
+   "parent": 5,
+   "pos": [
+    0,
+    0,
+    0
+   ],
+   "joint": {
+    "name": "joint6",
+    "axis": [
+     0.0,
+     0.0,
+     1.0
+    ],
+    "type": "hinge",
+    "range": [
+     -0.0175,
+     3.7525
+    ]
+   },
+   "quat": [
+    0.7071067811865475,
+    0.7071067811865475,
+    0.0,
+    0.0
+   ],
+   "mesh": "link6.glb"
+  },
+  {
+   "name": "link7",
+   "parent": 6,
+   "pos": [
+    0.088,
+    0.0,
+    0.0
+   ],
+   "joint": {
+    "name": "joint7",
+    "axis": [
+     0.0,
+     0.0,
+     1.0
+    ],
+    "type": "hinge",
+    "range": [
+     -2.8973,
+     2.8973
+    ]
+   },
+   "quat": [
+    0.7071067811865475,
+    0.7071067811865475,
+    0.0,
+    0.0
+   ],
+   "mesh": "link7.glb"
+  },
+  {
+   "name": "hand",
+   "parent": 7,
+   "pos": [
+    0.0,
+    0.0,
+    0.107
+   ],
+   "joint": null,
+   "quat": [
+    0.9238795391929064,
+    0.0,
+    0.0,
+    -0.38268341623423263
+   ],
+   "mesh": "hand.glb"
+  },
+  {
+   "name": "left_finger",
+   "parent": 8,
+   "pos": [
+    0.0,
+    0.0,
+    0.0584
+   ],
+   "joint": {
+    "name": "finger_joint1",
+    "axis": [
+     0.0,
+     1.0,
+     0.0
+    ],
+    "type": "slide",
+    "range": [
+     0.0,
+     0.04
+    ]
+   },
+   "mesh": "left_finger.glb"
+  },
+  {
+   "name": "right_finger",
+   "parent": 8,
+   "pos": [
+    0.0,
+    0.0,
+    0.0584
+   ],
+   "joint": {
+    "name": "finger_joint2",
+    "axis": [
+     0.0,
+     1.0,
+     0.0
+    ],
+    "type": "slide",
+    "range": [
+     0.0,
+     0.04
+    ]
+   },
+   "quat": [
+    0.0,
+    0.0,
+    0.0,
+    1.0
+   ],
+   "mesh": "right_finger.glb"
+  }
+ ]
+}

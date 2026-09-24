@@ -35,12 +35,12 @@ html[data-palette="notepad"] {
 
 /* dark_default */
 html[data-theme="dark"] {
-    --background: #212737;
+    --background: #1a1f2c;
     --foreground: #eaedf3;
     --accent: #ff6b01;
     --text-muted: #343f60;
     --border: #ab4b08;
-    --surface: #212737;
+    --surface: #1a1f2c;
 }
 
 /* dark_notepad */
@@ -289,8 +289,14 @@ ul li::marker {
     display: flex;
     justify-content: flex-start;
     align-items: center;
+    gap: 1rem;
     background: var(--background);
     transition: background 0.3s ease;
+}
+
+.navbar #theme-toggle {
+    margin-left: auto;
+    flex-shrink: 0;
 }
 
 @media (min-width: 1024px) {
@@ -530,6 +536,16 @@ ul li::marker {
     margin-bottom: 0.25rem;
 }
 
+.publication-teaser {
+    width: 320px;
+    height: 200px;
+    flex-shrink: 0;
+    object-fit: contain;
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: 0.25rem;
+}
+
 /* --- Tags (accent text, not pills) --- */
 
 .tag {
@@ -765,6 +781,137 @@ html:not([data-theme="dark"]) .icon-sun {
 
 .icon-muted {
     opacity: 0.7;
+}
+
+/* ===========================================
+   ROBOT VIEWERS
+   =========================================== */
+
+.section-lede {
+    margin-top: -0.5rem;
+    margin-bottom: 1rem;
+    opacity: 0.7;
+}
+
+.viewer-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1.5rem;
+}
+
+.viewer {
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    min-width: 0;
+}
+
+.viewer-stage {
+    position: relative;
+    aspect-ratio: 4 / 3;
+    border-radius: 0.25rem;
+    background: var(--surface);
+    overflow: hidden;
+}
+
+.viewer-stage canvas {
+    display: block;
+    width: 100%;
+    height: 100%;
+    cursor: grab;
+    touch-action: pan-y; /* let vertical page scroll win on touch */
+}
+
+.viewer-stage canvas:active {
+    cursor: grabbing;
+}
+
+/* Shown only if the viewer never initialised (no WebGL, CDN blocked) */
+.viewer-fallback {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 1.5rem;
+    font-size: 0.85rem;
+    opacity: 0.7;
+    margin: 0;
+}
+
+.viewer--ready .viewer-fallback,
+.viewer--loading .viewer-fallback {
+    display: none;
+}
+
+/* Loading shimmer while the GLB link meshes download */
+.viewer--loading .viewer-stage::after {
+    content: 'Loading model…';
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.85rem;
+    opacity: 0.6;
+}
+
+.viewer--ready .viewer-stage canvas,
+.viewer--failed .viewer-stage canvas {
+    opacity: 1;
+}
+
+.viewer--failed .viewer-stage canvas {
+    display: none;
+}
+
+.viewer-toolbar {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+    min-height: 1.75rem;
+}
+
+.viewer-track {
+    opacity: 0.7;
+}
+
+.viewer-select {
+    font-family: inherit;
+    font-size: 0.8rem;
+    font-weight: 600;
+    padding: 0.25rem 0.5rem;
+    color: var(--foreground);
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 0.25rem;
+    cursor: pointer;
+}
+
+.viewer-select:hover {
+    border-color: var(--accent);
+}
+
+.viewer figcaption {
+    display: flex;
+    flex-direction: column;
+    gap: 0.15rem;
+}
+
+.viewer-title {
+    font-size: 0.95rem;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    color: var(--foreground);
+}
+
+@media (max-width: 900px) {
+    .viewer-grid {
+        grid-template-columns: minmax(0, 1fr);
+    }
 }
 
 /* ===========================================
@@ -1191,6 +1338,11 @@ html:not([data-theme="dark"]) .icon-sun {
     .card {
         flex-direction: column;
         gap: 0.75rem;
+    }
+
+    .publication-teaser {
+        width: 100%;
+        height: auto;
     }
 
     .footer {

@@ -1,26 +1,35 @@
 <!DOCTYPE html>
-<html lang="en" data-palette="default">
+<html lang="en" data-palette="default" data-theme="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Jiyang (Patton) Yin | Robot Learning</title>
-    <meta name="description" content="Jiyang (Patton) Yin — Computer Science master's student at Brown University, researching robot learning, human-in-the-loop learning, and egocentric perception.">
+    <meta name="description" content="Jiyang (Patton) Yin — Computer Science master's student at Brown University, researching robot learning, egocentric manipulation, cross embodiment learning, and problems induced by human-in-the-loop style data collection.">
     <meta name="author" content="Jiyang (Patton) Yin">
 
     <!-- Open Graph -->
     <meta property="og:type" content="website">
     <meta property="og:title" content="Jiyang (Patton) Yin | Robot Learning">
-    <meta property="og:description" content="Robot learning, human-in-the-loop learning, and egocentric perception at Brown University.">
+    <meta property="og:description" content="Robot learning, human-in-the-loop learning, and egocentric manipulation at Brown University.">
 
     <link rel="stylesheet" href="css/style.css">
     <!-- Highlight.js for code syntax highlighting -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css" id="hljs-theme">
 
+    <!-- three.js for the robot viewers (bare specifiers resolved via import map) -->
+    <script type="importmap">
+    {
+        "imports": {
+            "three": "https://unpkg.com/three@0.169.0/build/three.module.js",
+            "three/addons/": "https://unpkg.com/three@0.169.0/examples/jsm/"
+        }
+    }
+    </script>
+
     <!-- Set theme before first paint to avoid a flash of the wrong palette -->
     <script>
         (function () {
-            var theme = localStorage.getItem('theme') ||
-                (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+            var theme = localStorage.getItem('theme') || 'dark';
             document.documentElement.setAttribute('data-theme', theme);
         })();
     </script>
@@ -74,7 +83,7 @@
                         Brown University
                     </p>
                     <p class="sidebar-bio">
-                        Master's student in Computer Science, working on robot learning.
+                        Master's student in Computer Science, working on Robot Learning.
                     </p>
                     <div class="sidebar-socials">
                         <a href="https://github.com/PattonYin" class="social-link" target="_blank" rel="noreferrer" aria-label="Patton Yin on GitHub">
@@ -91,7 +100,12 @@
                 <ul class="nav-links">
                     <li><a href="#about" class="nav-link">About<span class="nav-link-line"></span></a></li>
                     <li><a href="#publications" class="nav-link">Publications<span class="nav-link-line"></span></a></li>
+                    <li><a href="#robots" class="nav-link">Robots<span class="nav-link-line"></span></a></li>
                 </ul>
+                <button id="theme-toggle" class="btn-icon" aria-label="Toggle dark mode" title="Toggle dark mode">
+                    <svg class="icon icon-sm icon-sun" aria-hidden="true"><use href="#i-sun"></use></svg>
+                    <svg class="icon icon-sm icon-moon" aria-hidden="true"><use href="#i-moon"></use></svg>
+                </button>
             </nav>
 
             <main class="main-body animate-in">
@@ -102,7 +116,7 @@
                     </div>
                     <div class="prose container-narrow">
                         <p>
-                            I'm a master's student in Computer Science at Brown University, where I work in the Humans to Robots Laboratory (H2R) under the guidance of Professor Stefanie Tellex. My research interests include robot learning, human-in-the-loop learning, and egocentric perception. I'm passionate about making robot learning more data-efficient and developing systems that are easier to train, adapt, and deploy.
+                            Hi, I'm a master's student in Computer Science at Brown University. I work in the Humans to Robots Laboratory (H2R) under Professor Stefanie Tellex. My research interests include imitation learning, human-in-the-loop learning, and egocentric manipulation. I'm passionate about making robot learning more data-efficient, and leveraging different data source to make it more capable.
                         </p>
                     </div>
                 </section>
@@ -119,6 +133,45 @@
 
                 <hr class="divider">
 
+                <!-- Robots -->
+                <section id="robots" class="section">
+                    <h2 class="section-title">Robot Systems I Work With and Maintain</h2>
+                    <p class="body-sm section-lede">
+                        I use and actively maintain these robot systems for my research, handling everything from calibration, kinematics, and control to teleoperation, data collection, and policy rollout pipelines.
+                    </p>
+                    <!-- <p class="body-xs section-lede">Drag to orbit, scroll to zoom.</p> -->
+                    <div class="viewer-grid">
+                        <figure class="viewer">
+                            <div class="viewer-stage">
+                                <canvas data-robot-setup="bimanual" aria-label="3D view of two KUKA LBR iiwa arms in a bimanual setup"></canvas>
+                                <p class="viewer-fallback">
+                                    3D view unavailable — your browser may have WebGL disabled.
+                                </p>
+                            </div>
+                            <div class="viewer-toolbar"></div>
+                            <figcaption>
+                                <span class="viewer-title">2&times; KUKA LBR iiwa</span>
+                                <span class="body-xs">Bimanual manipulation &middot; 7-DOF each &middot; model shown: iiwa&nbsp;14 R820</span>
+                            </figcaption>
+                        </figure>
+                        <figure class="viewer">
+                            <div class="viewer-stage">
+                                <canvas data-robot-setup="panda" aria-label="3D view of a Franka Emika Panda arm"></canvas>
+                                <p class="viewer-fallback">
+                                    3D view unavailable — your browser may have WebGL disabled.
+                                </p>
+                            </div>
+                            <div class="viewer-toolbar"></div>
+                            <figcaption>
+                                <span class="viewer-title">Franka Emika Panda</span>
+                                <span class="body-xs">Single-arm manipulation &middot; 7-DOF, 855&nbsp;mm reach</span>
+                            </figcaption>
+                        </figure>
+                    </div>
+                </section>
+
+                <hr class="divider">
+
             </main>
             <!-- Footer -->
             <footer class="footer">
@@ -129,10 +182,6 @@
                     <span class="body-xs">Styled after <a href="https://github.com/rubzip/academic-portfolio-astro/" target="_blank" rel="noopener noreferrer" class="link">Academic Portfolio Astro</a></span>
                     <button id="palette-toggle" class="btn-icon" aria-label="Toggle color palette" title="Toggle color palette">
                         <svg class="icon icon-sm" aria-hidden="true"><use href="#i-rss"></use></svg>
-                    </button>
-                    <button id="theme-toggle" class="btn-icon" aria-label="Toggle dark mode" title="Toggle dark mode">
-                        <svg class="icon icon-sm icon-sun" aria-hidden="true"><use href="#i-sun"></use></svg>
-                        <svg class="icon icon-sm icon-moon" aria-hidden="true"><use href="#i-moon"></use></svg>
                     </button>
                 </div>
             </footer>
@@ -156,5 +205,6 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
     <script src="js/main.js"></script>
     <script src="js/blog.js"></script>
+    <script type="module" src="js/robots.js"></script>
 </body>
 </html>

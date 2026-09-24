@@ -29,15 +29,6 @@ function initTheme() {
             updateHighlightTheme(next);
         });
     }
-
-    // Follow the system preference until the user picks a theme explicitly
-    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
-        if (!localStorage.getItem('theme')) {
-            const next = e.matches ? 'dark' : 'light';
-            document.documentElement.setAttribute('data-theme', next);
-            updateHighlightTheme(next);
-        }
-    });
 }
 
 function currentTheme() {
@@ -223,9 +214,15 @@ function renderPublications(publications) {
         const title = titleHref
             ? `<a href="${escapeHtml(titleHref)}" target="_blank" rel="noopener" class="card-title">${escapeHtml(pub.title)}</a>`
             : `<span class="card-title">${escapeHtml(pub.title)}</span>`;
+        const teaser = pub.image
+            ? `<img class="publication-teaser" src="${escapeHtml(pub.image)}"
+                    alt="${escapeHtml(pub.imageAlt || `Teaser for ${pub.title}`)}"
+                    loading="lazy" decoding="async">`
+            : '';
 
         return `
             <article class="card">
+                ${teaser}
                 <div class="card-content">
                     ${title}
                     <div class="card-meta">
